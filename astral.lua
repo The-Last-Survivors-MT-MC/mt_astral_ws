@@ -18,6 +18,7 @@ local astral_day_offset = mod_storage:get_int( "astral_day_offset" )
 if astral_day_offset == 0 then
 	-- First time loading the mod, init it
 	astral_day_offset = math.random( 1 , 10000 )
+	mod_storage:set_int( "astral_day_offset", astral_day_offset )
 end
 
 
