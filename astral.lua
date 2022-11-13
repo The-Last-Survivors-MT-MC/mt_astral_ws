@@ -1,5 +1,27 @@
 
+--[[
+Astral
+Fixed compatibility with basic machines enviro
+
+Modification Copyright (C) 2022  R1BNC
+Original program by https://gitlab.com/cronvel/mt-astral (c) 2020 Cédric Ronvel 
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+]]--
+
 local mod_storage = minetest.get_mod_storage()
+local belowspace = 1100
 
 -- Data
 local moon_phase_count = 8
@@ -381,7 +403,11 @@ end
 local function update_moon()
 	if compute_astral() then
 		for _, player in ipairs( minetest.get_connected_players() ) do
-			set_player_sky( player )
+			local pos = player:get_pos()
+			-- Check for y position of player
+			if pos.y < belowspace then
+			    set_player_sky( player )
+			end
 		end
 	end
 end
@@ -438,6 +464,10 @@ end )
 
 -- set the sky for newly joined player
 minetest.register_on_joinplayer( function( player )
-	set_player_sky( player, moon_phase )
+	local pos = player:get_pos()
+	-- Check for y position of player
+	if pos.y < belowspace then
+	    set_player_sky( player, moon_phase )
+    end
 end )
 
